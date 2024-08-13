@@ -28,6 +28,9 @@ blueprint:
             - dry
             - fan_only
 
+variables:
+  climate_mode: !input climate_mode
+
 trigger:
   - platform: time
     at: input_datetime.switch_time
