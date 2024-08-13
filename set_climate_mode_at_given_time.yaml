@@ -23,7 +23,7 @@ blueprint:
           options:
             - heat
             - cool
-            - off
+            - "off"
             - auto
             - dry
             - fan_only
