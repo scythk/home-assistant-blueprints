@@ -1,0 +1,45 @@
+blueprint:
+  name: Set climate mode at given time
+  description: Set climate hvac mode based on input_datetime entity and disable the automation afterward.
+  domain: automation
+  input:
+    climate_entity:
+      name: Climate Entity
+      description: The climate entity to control.
+      selector:
+        entity:
+          domain: climate
+    switch_time:
+      name: Switch Time
+      description: The time at which to switch the climate mode.
+      selector:
+        entity:
+          domain: input_datetime
+    climate_mode:
+      name: Climate Mode
+      description: The mode to switch the climate entity to (e.g., heat, cool, off).
+      selector:
+        select:
+          options:
+            - heat
+            - cool
+            - off
+            - auto
+            - dry
+            - fan_only
+
+trigger:
+  - platform: time
+    at: input_datetime.switch_time
+
+action:
+  - service: climate.set_hvac_mode
+    target:
+      entity_id: !input climate_entity
+    data:
+      hvac_mode: !input climate_mode
+  - service: automation.turn_off
+    target:
+      entity_id: this.entity_id
+
+mode: single
